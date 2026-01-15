@@ -1,8 +1,7 @@
 import { z } from 'zod';
 import { publicProcedure } from '../init';
-import { os } from '@orpc/server';
 
-const getUserCarts = publicProcedure
+export const getUserCarts = publicProcedure
   .input(z.object({ userId: z.number() }))
   .handler(async ({ input }) => {
     const response = await fetch(`https://dummyjson.com/carts/user/${input.userId}`);
@@ -12,7 +11,7 @@ const getUserCarts = publicProcedure
     return response.json();
   });
 
-const addCart = publicProcedure
+export const addCart = publicProcedure
   .input(
     z.object({
       userId: z.number(),
@@ -37,8 +36,3 @@ const addCart = publicProcedure
 
     return response.json();
   });
-
-export const cartsRouter = os.router({
-  getUserCarts,
-  addCart,
-});

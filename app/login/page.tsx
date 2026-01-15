@@ -161,7 +161,7 @@ export default function LoginPage() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.5 }}
-          className="text-center text-sm text-muted-foreground mt-4"
+          className="text-center tet-sm text-muted-foreground mt-4"
         >
           Built with Next.js, oRPC, TanStack Query & Zustand
         </motion.p>
@@ -169,3 +169,4 @@ export default function LoginPage() {
     </div>
   );
 }
+

@@ -24,7 +24,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Create context from request
-    const context = await createContext(request);
+    const context = await createContext();
 
     // Call the procedure handler with proper format
     const result = await proc(body, { context });
@@ -59,7 +59,7 @@ export async function GET(request: NextRequest) {
     }
 
     // Create context from request
-    const context = await createContext(request);
+    const context = await createContext();
 
     const result = await proc({}, { context });
     

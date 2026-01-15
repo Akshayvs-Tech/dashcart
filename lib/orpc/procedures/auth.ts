@@ -1,13 +1,12 @@
 import { z } from 'zod';
 import { publicProcedure } from '../init';
-import { os } from '@orpc/server';
 
 const loginSchema = z.object({
   username: z.string().min(1, 'Username is required'),
   password: z.string().min(1, 'Password is required'),
 });
 
-const login = publicProcedure
+export const login = publicProcedure
   .input(loginSchema)
   .handler(async ({ input }) => {
     const response = await fetch('https://dummyjson.com/auth/login', {
@@ -28,7 +27,7 @@ const login = publicProcedure
     return data;
   });
 
-const getCurrentUser = publicProcedure.handler(async ({ context }) => {
+export const getCurrentUser = publicProcedure.handler(async ({ context }) => {
   if (!context.token) {
     return null;
   }
@@ -50,9 +49,4 @@ const getCurrentUser = publicProcedure.handler(async ({ context }) => {
   } catch (error) {
     return null;
   }
-});
-
-export const authRouter = os.router({
-  login,
-  getCurrentUser,
 });

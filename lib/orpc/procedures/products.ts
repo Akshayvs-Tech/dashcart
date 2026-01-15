@@ -1,6 +1,5 @@
 import { z } from 'zod';
 import { publicProcedure } from '../init';
-import { os } from '@orpc/server';
 
 const getProductsSchema = z.object({
   limit: z.number().optional().default(10),
@@ -21,7 +20,7 @@ const productFormSchema = z.object({
   thumbnail: z.string().url('Invalid URL').optional(),
 });
 
-const getProducts = publicProcedure
+export const getProducts = publicProcedure
   .input(getProductsSchema)
   .handler(async ({ input }) => {
     let url = 'https://dummyjson.com/products';
@@ -60,7 +59,7 @@ const getProducts = publicProcedure
     };
   });
 
-const getProduct = publicProcedure
+export const getProduct = publicProcedure
   .input(z.object({ id: z.number() }))
   .handler(async ({ input }) => {
     const response = await fetch(`https://dummyjson.com/products/${input.id}`);
@@ -70,7 +69,7 @@ const getProduct = publicProcedure
     return response.json();
   });
 
-const getCategories = publicProcedure.handler(async () => {
+export const getCategories = publicProcedure.handler(async () => {
   const response = await fetch('https://dummyjson.com/products/categories');
   if (!response.ok) {
     throw new Error('Failed to fetch categories');
@@ -78,7 +77,7 @@ const getCategories = publicProcedure.handler(async () => {
   return response.json();
 });
 
-const addProduct = publicProcedure
+export const addProduct = publicProcedure
   .input(productFormSchema)
   .handler(async ({ input }) => {
     const response = await fetch('https://dummyjson.com/products/add', {
@@ -94,7 +93,7 @@ const addProduct = publicProcedure
     return response.json();
   });
 
-const updateProduct = publicProcedure
+export const updateProduct = publicProcedure
   .input(
     z.object({
       id: z.number(),
@@ -115,7 +114,7 @@ const updateProduct = publicProcedure
     return response.json();
   });
 
-const deleteProduct = publicProcedure
+export const deleteProduct = publicProcedure
   .input(z.object({ id: z.number() }))
   .handler(async ({ input }) => {
     const response = await fetch(`https://dummyjson.com/products/${input.id}`, {
@@ -128,12 +127,3 @@ const deleteProduct = publicProcedure
 
     return response.json();
   });
-
-export const productsRouter = os.router({
-  getProducts,
-  getProduct,
-  getCategories,
-  addProduct,
-  updateProduct,
-  deleteProduct,
-});
